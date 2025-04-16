@@ -1,0 +1,98 @@
+bstats-enabled: true
+
+database-path: "null"
+
+text-reactions:
+  enabled: true
+  reactions:
+    - "type this"
+    - "or this"
+
+math-reactions:
+  addition:
+    enabled: true
+    number1-range: # Ranges are inclusive of both boundary numbers
+      start: 1
+      end: 999
+    number2-range:
+      start: 1
+      end: 999
+
+  subtraction:
+    enabled: true
+    number1-range:
+      start: 1
+      end: 999
+    number2-range:
+      start: 1
+      end: 999
+
+  multiplication:
+    enabled: true
+    number1-range:
+      start: 1
+      end: 20
+    number2-range:
+      start: 1
+      end: 20
+
+  division:
+    enabled: true
+    answer-range:
+      start: 1
+      end: 20
+    divisor-range:
+      start: 1
+      end: 10
+
+delay:
+  fixed-delay: 120
+  random-delay-range:
+    start: 0
+    end: 0
+
+timeout: 90 #
+
+reward-command: "eco give {player} 5000" # Requires an economy plugin to work
+
+messages: # Messages use MiniMessage
+  new-game: "<#ff0000>Chat<#ffffff>Reactions » <#0064ff> Type <#ffffff>{command} <#0064ff>first to win $5,000!"
+  winner-announcement: "<#ff0000>Chat<#ffffff>Reactions » {player} <#0064ff>got it right in <#ffffff>{seconds}<#0064ff>s!"
+  no-reaction: "<#ff0000>There is no active chat reaction!"
+  incorrect-reaction: "<#ff000>Incorrect reaction!"
+  timeout: "<#ff0000>Chat<#ffffff>Reactions » <#ff0000>Nobody got it in time :("
+  no-internet: "<red>ChatReactions cannot access the GitHub API! Is the server connected to the Internet?"
+  new-version: "<#ff0000>Chat<#ffffff>Reactions » There is a new version of the plugin available! Version {new-version} is available, but you are still using {old-version}. Download it at: <red><b><u>https://modrinth.com/plugin/chatreactions/releases/{new-version}"
+  stats: "<#ff0000>Chat<#ffffff>Reactions » Stats ({player})\n
+  <#ff0000>Games Won: <white>{won}\n
+  <#ff0000>Games Played: <white>{played}\n
+  <#ff0000>Total Attempts: <white>{attempts}\n"
+  never-played: "<red>This user has never played before, and so has no stats."
+  reloaded: "<green>Config successfully reloaded!"
+
+sounds:
+  new-game-notification:
+    name: BLOCK_NOTE_BLOCK_XYLOPHONE
+    volume: 1.0
+    pitch: 1.0
+  command-failed:
+    name: BLOCK_NOTE_BLOCK_PLING
+    volume: 1.0
+    pitch: 0.2
+  command-succeed-generic:
+    name: BLOCK_NOTE_BLOCK_PLING
+    volume: 1.0
+    pitch: 2.0
+  self-player-won:
+    name: BLOCK_NOTE_BLOCK_XYLOPHONE
+    volume: 1.0
+    pitch: 2.0
+  other-player-won:
+    name: BLOCK_NOTE_BLOCK_XYLOPHONE
+    volume: 1.0
+    pitch: 0.5
+  timeout:
+    name: BLOCK_NOTE_BLOCK_XYLOPHONE
+    volume: 1.0
+    pitch: 0.2
+

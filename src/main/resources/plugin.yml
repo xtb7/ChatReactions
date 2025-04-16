@@ -1,0 +1,23 @@
+name: ChatReactions
+version: '1.0.0'
+main: net.xtb7.chatReactions.ChatReactions
+api-version: '1.21'
+
+commands:
+  react:
+    permission: chatreactions.play
+    aliases: [ re ]
+  chatreactions:
+    aliases: [ cr ]
+
+permissions:
+  chatreactions.reload:
+    default: op
+  chatreactions.force:
+    default: op
+  chatreactions.play:
+    default: true
+  chatreactions.stats.self:
+    default: true
+  chatreactions.stats.other:
+    default: true
