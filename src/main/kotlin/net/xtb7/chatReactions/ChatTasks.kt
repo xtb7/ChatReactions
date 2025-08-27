@@ -10,6 +10,19 @@ import java.time.Instant.now
 import kotlin.random.Random
 
 class ChatTasks : BukkitRunnable() {
+    companion object {
+        fun parseRange(path : String) : IntRange {
+            val section = ChatReactions.instance.config.getConfigurationSection(path) ?: return IntRange.EMPTY
+            return section.getInt("start")..section.getInt("end")
+        }
+
+        fun getDelay() : Long {
+            var waitPeriod = ChatReactions.instance.config.getInt("delay.fixed-delay")
+            if (waitPeriod < 1) waitPeriod = parseRange("delay.random-delay-range").random()
+            return waitPeriod * 20L
+        }
+    }
+
     override fun run() {
         ChatReactions.chatReactTime = now().toEpochMilli()
         ChatReactions.userAttempts.clear()
@@ -74,16 +87,17 @@ class ChatTasks : BukkitRunnable() {
                 player.sendMessage(message)
                 sound.playFor(player)
             }
-            var waitPeriod = ChatReactions.instance.config.getInt("delay.fixed-delay")
-            if (waitPeriod < 1) waitPeriod = parseRange("delay.random-delay-range").random()
-            waitPeriod *= 20
+
 
             val timeout = ChatReactions.instance.config.getInt("timeout")
+//            println("t: $timeout")
             if (timeout > 0) {
                 val timeoutMessage = Messages.get("messages.timeout")
                 val timeoutSound = Sounds.getSound("sounds.timeout")
                 Bukkit.getScheduler().runTaskLater(ChatReactions.instance, Runnable {
-                    if(this.isCancelled) return@Runnable
+//                    println(ChatReactions.currentChatReactionTaskID)
+//                    println(taskId)
+                    if(this.isCancelled || ChatReactions.currentChatReactionTaskID != this.taskId) return@Runnable
                     ChatReactions.correctChatReaction = null
                     for (player in Bukkit.getOnlinePlayers()) {
                         player.sendMessage(timeoutMessage)
@@ -92,13 +106,8 @@ class ChatTasks : BukkitRunnable() {
                 }, timeout * 20L)
             }
 
-            ChatReactions.currentChatReactionTaskID = ChatTasks().runTaskLater(ChatReactions.instance, waitPeriod.toLong()).taskId
+            ChatReactions.currentChatReactionTaskID = ChatTasks().runTaskLater(ChatReactions.instance, getDelay()).taskId
             break
         }
-    }
-
-    fun parseRange(path : String) : IntRange {
-        val section = ChatReactions.instance.config.getConfigurationSection(path) ?: return IntRange.EMPTY
-        return section.getInt("start")..section.getInt("end")
     }
 }

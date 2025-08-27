@@ -17,7 +17,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("org.spigotmc:spigot-api:1.21.4-R0.1-SNAPSHOT")
+    compileOnly("org.spigotmc:spigot-api:1.13-R0.1-SNAPSHOT")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("net.kyori:adventure-api:4.18.0")
     implementation("net.kyori:adventure-platform-bukkit:4.3.0")
@@ -38,6 +38,7 @@ tasks.build {
 
 tasks.withType<Jar> {
     doLast {
+        println(this.name)
         val jar = archiveFile.get().asFile
         jar.copyTo(File("/home/tom/Desktop/AlcMC/TestServer/plugins/", jar.name), true)
     }

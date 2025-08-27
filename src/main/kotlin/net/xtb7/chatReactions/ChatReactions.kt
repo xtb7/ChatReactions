@@ -2,6 +2,7 @@ package net.xtb7.chatReactions
 
 import net.kyori.adventure.platform.bukkit.BukkitAudiences
 import net.kyori.adventure.text.minimessage.MiniMessage
+import net.xtb7.chatReactions.ChatTasks.Companion.getDelay
 import net.xtb7.chatReactions.bstats.Metrics
 import net.xtb7.chatReactions.commands.ChatReactionsCommand
 import net.xtb7.chatReactions.commands.React
@@ -11,6 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
 import java.sql.Connection
 import java.sql.DriverManager
+import java.util.HashMap
 import java.util.UUID
 
 class ChatReactions : JavaPlugin() {
@@ -35,7 +37,7 @@ class ChatReactions : JavaPlugin() {
         audiences = BukkitAudiences.create(this)
         console = Bukkit.getConsoleSender()
         if (!File(dataFolder, "config.yml").exists()) saveResource("config.yml", false)
-        var dbPath = config.getString("database-path")
+        val dbPath = config.getString("database-path")
         if (dbPath == "null") {
             saveResource("stats.db", false)
             config.set("database-path", "${dataFolder.absolutePath}/stats.db")
@@ -50,6 +52,8 @@ class ChatReactions : JavaPlugin() {
         val listener = Listener()
         listener.runTaskTimer(this, 0L, 144000L)
         server.pluginManager.registerEvents(listener, this)
+        val delay = getDelay()
+        if (delay > 20L) currentChatReactionTaskID = ChatTasks().runTaskLater(instance, getDelay()).taskId
         if(config.getBoolean("bstats-enabled")) Metrics(this, 25474)
         logger.info("ChatReactions ${description.version} Enabled!")
     }

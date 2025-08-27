@@ -8,12 +8,12 @@ import java.lang.Exception
 class Sounds(val sound : Sound, val volume : Float, val pitch : Float) {
     companion object {
         fun Sounds.playFor(player: Player) {
-            player.playSound(player, this.sound, this.volume, this.pitch)
+            player.playSound(player.location, this.sound, this.volume, this.pitch)
         }
 
         fun getSound(name: String) : Sounds {
             try {
-                val section = ChatReactions.Companion.instance.config.getConfigurationSection(name)!!
+                val section = ChatReactions.instance.config.getConfigurationSection(name)!!
                 return Sounds(Class.forName("org.bukkit.Sound").getDeclaredField(section.getString("name")!!).get(null) as Sound, section.getDouble("volume").toFloat(), section.getDouble("pitch").toFloat())
             }
             catch (_ : Exception) {

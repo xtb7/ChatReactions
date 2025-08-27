@@ -1,7 +1,7 @@
 name: ChatReactions
 version: '1.0.0'
 main: net.xtb7.chatReactions.ChatReactions
-api-version: '1.21'
+api-version: '1.13'
 
 commands:
   react:

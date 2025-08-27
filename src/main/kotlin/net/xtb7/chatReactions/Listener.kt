@@ -36,13 +36,13 @@ class Listener : Listener, BukkitRunnable() {
             val newVersion = JsonParser.parseReader(connection.inputStream.bufferedReader()).asJsonObject.get("name").asString
             val currentVersion = ChatReactions.instance.description.version
             if(newVersion != currentVersion) {
-                if (updateMessage == null) {
-                    updateMessage = Messages.get("messages.new-version", mapOf(
-                        "{new-version}" to newVersion,
-                        "{old-version}" to currentVersion
+                if (this.updateMessage == null) {
+                    this.updateMessage = Messages.get("messages.new-version", mapOf(
+                        "new-version" to newVersion,
+                        "old-version" to currentVersion
                     ))
                 }
-                ChatReactions.audiences.console().sendMessage(updateMessage!!)
+                ChatReactions.audiences.console().sendMessage(this.updateMessage!!)
                 return true
             }
         }
@@ -53,6 +53,6 @@ class Listener : Listener, BukkitRunnable() {
     }
 
     override fun run() {
-        if(isUpdateAvailable()) for (player in Bukkit.getOnlinePlayers()) if (player.isOp) player.sendMessage(Messages.get("messages.new-version"))
+        if(isUpdateAvailable()) for (player in Bukkit.getOnlinePlayers()) if (player.isOp) player.sendMessage(this.updateMessage!!)
     }
 }

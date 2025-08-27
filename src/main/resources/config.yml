@@ -1,13 +1,20 @@
+# This plugin optionally uses bStats to collect (non-identifying) data about the usage of the plugin. This can be opted out of by setting this to false.
 bstats-enabled: true
 
+# Don't change this unless you know what you're doing
 database-path: "null"
 
 text-reactions:
   enabled: true
-  reactions:
-    - "type this"
-    - "or this"
 
+  # The set of reactions that will be randomly chosen from if text reactions are chosen.
+  # Players can run the command "/re {reaction}" to win the game and trigger the "reward-command" (see below)
+  reactions:
+    - "players can type this to win!"
+    - "or type this!"
+    - "add your own chat reactions here"
+
+# If enabled, this creates a random, simple math problem for players to solve. The first to run /re {correct-answer} wins!
 math-reactions:
   addition:
     enabled: true
@@ -45,17 +52,24 @@ math-reactions:
       start: 1
       end: 10
 
+# How long should there be between chat games in seconds?
 delay:
+  # This would ensure that there is always 2 minutes between the beginning of chat games
   fixed-delay: 120
+
+  # If you would instead like to use a random delay, set fixed-delay to -1
   random-delay-range:
     start: 0
     end: 0
 
-timeout: 90 #
+# How long (in seconds) after the chat game starting should it expire if no one has gotten the answer? If you'd like to disable this, set it to 0.
+timeout: 90
 
-reward-command: "eco give {player} 5000" # Requires an economy plugin to work
+# The command to be run when a player correctly answers the chat task. Here, {player} is a placeholder that will be replaced with the winner's username. This example requires an economy plugin to work
+reward-command: "eco give {player} 5000"
 
-messages: # Messages use MiniMessage
+# Messages use MiniMessage
+messages:
   new-game: "<#ff0000>Chat<#ffffff>Reactions » <#0064ff> Type <#ffffff>{command} <#0064ff>first to win $5,000!"
   winner-announcement: "<#ff0000>Chat<#ffffff>Reactions » {player} <#0064ff>got it right in <#ffffff>{seconds}<#0064ff>s!"
   no-reaction: "<#ff0000>There is no active chat reaction!"
